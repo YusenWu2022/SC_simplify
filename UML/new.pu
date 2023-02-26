@@ -1,0 +1,63 @@
+
+@startuml babaisyou
+title Babaisyou components main relation
+class MenuManager{
+    + Select:void 
+}
+abstract class Scene{
+    + AudioSource 
+    - GridLayout
+}
+class LevelCreator
+class MapMaker{
+    + Awake:void
+}
+class PlayerMove{
+    + PlayerMove:void
+}
+class Player{
+    - CurrentX
+    - CurrentY
+}
+class Rule{
+    + OnTrigerEnter2D
+    + OnTrigerExit2D
+}
+class RuleManager{
+    + CheckTrue:void
+    + MakeRule:void
+    + Awake:void
+    + IsWin:void
+}
+class WinManager{
+    + Select
+}
+class Begin{
+    + Select
+}
+entity GameObject
+enum ObjectType{
+    - Baba
+    - Push
+    - Win
+    - is
+    - You
+    - BabaText
+    - Flag
+    - WallText
+    - Wall
+    - Stop
+}
+MenuManager <-- Begin
+MapMaker *-- LevelCreator
+Scene o-- MapMaker 
+MenuManager *-- Scene
+RuleManager <--> Rule
+PlayerMove *-- RuleManager
+Scene o-- PlayerMove 
+WinManager *-- Scene
+MenuManager <--> WinManager
+PlayerMove *-- Player
+MapMaker o-- GameObject
+GameObject <|-- ObjectType
+@enduml

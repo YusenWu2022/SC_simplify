@@ -1,0 +1,96 @@
+@startuml
+MainWorld *--Entrance
+abstract class BackGroundFrame
+{
+    - backGround:JLabel
+    + goBack():void
+}
+class Entrance
+{
+    - Introduce:JButton
+    - ScoreBoard: JButton
+    + GameStart:JButton
+    + EndGame:JButton
+    - goIntroduce():void
+    - goScoreBoard():void
+    + startGame():void
+    + endGame():void
+}
+Entrance --|>BackGroundFrame
+class IntroduceFrame
+{
+    - introduceText:JLabel
+}
+IntroduceFrame--|>BackGroundFrame
+ScoreBoard--|>BackGroundFrame
+class GameFrame{
+- update:TimerTask
+- reparint:TimerTask
+-musicPlay:TimerTask
+}
+GameFrame--|>BackGroundFrame
+BackGroundFrame--|>JFrame
+Entrance<-->IntroduceFrame
+Entrance<-->GameFrame
+class ScoreBoard
+{
+- bestScore:int
++ readBestScore():void
+}
+Entrance<-->ScoreBoard
+class MusicPlayer
+{
+    -clip:ArdioClip
+    + playMusic():void
+    + loopMusic():void 
+    + stopMusic():void
+}
+GameFrame o--MusicPlayer
+class GUIFrame
+{
+    + vespene:int 
+    + minerals:int 
+    + score:int 
+    + award:int
+}
+GameFrame *--GUIFrame
+class MapCanvas
+{
+    + update():void
+    + rapaint():void
+    - draw():void
+}
+GUIFrame<-->MapCanvas
+GUIFrame *--JButton
+class WorldRunner
+{
+    - I:Player
+    - enemies:AI
+    - myTowerArr:ArrayList<Tower>
+    - myUnitArr:ArrayList<Unit>
+    - oppositeUnitArr:ArrayList<Unit>
+    - bulletArr:ArrayList<Bullet>
+    + receiveOrder(Order):void
+    + checkEndGame():boolean
+}
+WorldRunner..>JButton
+class Player
+{
+    - belongedWorld:WorldRunner
+    - vespene:int
+    - minerals:int
+    + buy(order):void
+}
+GUIFrame..>Player
+Player..>JButton
+MapCanvas<-->WorldRunner
+WorldRunner *--Player
+class AI
+{
+    - belongedWorld:WorldRunner
+    + produce():void 
+    - difficulty:int
+}
+WorldRunner o--AI
+AI --|>Player
+@enduml

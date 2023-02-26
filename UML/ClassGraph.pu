@@ -1,0 +1,84 @@
+
+@startuml new
+title Game Class Graph
+interface Drawable
+{
+    + draw:void
+}
+interface Attackable
+{
+    + attack(Attackable tgt):void
+    + hurt(int harm):void
+}
+interface Measureable
+{
+    + distance(Measureable tgt):double
+    + collide(Measureable tgt):boolean
+}
+abstract class Unit
+{
+    - hp:int
+    - ATK:int
+    - placex:int
+    - placey:int
+    - img:Image
+    - speed:Speed
+    + getX():int
+    + getY():int
+    + getATK():int
+}
+Unit..|> Attackable
+note on link:用于互相攻击
+Unit..|>Measureable
+note on link:用于计算距离
+Unit..|>Drawable
+note on link:用于绘制图像
+abstract class CreatureUnit
+CreatureUnit--|>Unit
+abstract class ZergUnit
+class Zergling{
+    + {static}img:Image 
+}
+ZergUnit--|>CreatureUnit
+Hydralisk--|>ZergUnit
+Zergling--|>ZergUnit
+Ultralisk--|>ZergUnit
+Mutalisk--|>ZergUnit
+interface Fliable
+{
+    + checkAttackable:boolean
+}
+Mutalisk..|>Fliable
+
+interface Recoverable
+{
+    + recover:void
+}
+abstract class Tower
+Tower..|>Attackable
+Tower..|>Measureable
+Tower..|>Drawable
+abstract class DefenseTower
+DefenseTower--|>Tower
+Khaydarin--|>DefenseTower
+PhotonCannon--|>DefenseTower
+ShieldBattery--|>DefenseTower
+ShieldBattery..->Recoverable
+
+interface Lastable
+{
+    + lastTime:int 
+    + startTime:int
+}
+abstract class Bullet
+{
+    + move:void
+    + draw:void 
+}
+Bullet..|>Lastable
+Bullet..|>Drawable
+HydraliskBullet--|>Bullet
+KhaydarinBullet--|>Bullet
+PhotonCannonBullet--|>Bullet
+ShieldBatteryBullet--|>Bullet
+@enduml
